@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Duck Gift Card Center</title>
+
+  <meta name="description" content="Duck Gift Card Center">
+  <meta name="theme-color" content="#ffd84d">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, Tahoma, sans-serif;
+      background:
+        radial-gradient(circle at 8% 12%, rgba(255, 255, 255, 0.85) 0 0.7rem, transparent 0.75rem),
+        radial-gradient(circle at 82% 10%, rgba(255, 255, 255, 0.65) 0 1rem, transparent 1.08rem),
+        radial-gradient(circle at 16% 78%, rgba(255, 255, 255, 0.48) 0 1.2rem, transparent 1.3rem),
+        radial-gradient(circle at 91% 82%, rgba(255, 255, 255, 0.58) 0 0.85rem, transparent 0.95rem),
+        linear-gradient(135deg, #fff8c2 0%, #ffe884 30%, #ffd84d 62%, #ffc928 100%);
+    }
+
+    .app-shell {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: transparent;
+    }
+
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 8% 12%, rgba(255, 255, 255, 0.85) 0 0.7rem, transparent 0.75rem),
+        radial-gradient(circle at 82% 10%, rgba(255, 255, 255, 0.65) 0 1rem, transparent 1.08rem),
+        linear-gradient(135deg, #fff8c2 0%, #ffe884 30%, #ffd84d 62%, #ffc928 100%);
+      color: #7a4f00;
+      text-align: center;
+    }
+
+    .loader.hidden {
+      display: none;
+    }
+
+    .loader-card {
+      width: 100%;
+      max-width: 420px;
+      padding: 28px 22px;
+      border-radius: 28px;
+      background: rgba(255, 254, 248, 0.96);
+      border: 2px solid rgba(255, 237, 145, 0.95);
+      box-shadow: 0 22px 60px rgba(122, 79, 0, 0.18);
+    }
+
+    .duck-face {
+      width: 86px;
+      height: 86px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #ffe45e, #ffc928);
+      border: 3px solid #f7c948;
+      box-shadow: 0 14px 25px rgba(245, 158, 11, 0.22);
+      position: relative;
+    }
+
+    .duck-face::before,
+    .duck-face::after {
+      content: "";
+      position: absolute;
+      top: 28px;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #4b2e00;
+    }
+
+    .duck-face::before {
+      left: 24px;
+    }
+
+    .duck-face::after {
+      right: 24px;
+    }
+
+    .duck-bill {
+      position: absolute;
+      left: 50%;
+      top: 46px;
+      transform: translateX(-50%);
+      width: 34px;
+      height: 18px;
+      border-radius: 12px 12px 14px 14px;
+      background: #fb923c;
+      border: 2px solid #ea580c;
+    }
+
+    .loader-title {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.35;
+      color: #7a4f00;
+    }
+
+    .loader-sub {
+      margin-top: 8px;
+      font-size: 14px;
+      line-height: 1.6;
+      font-weight: 700;
+      color: #8a6a18;
+    }
+
+    .fallback {
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      z-index: 40;
+      display: none;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255, 254, 248, 0.96);
+      border: 2px solid #ffe08a;
+      box-shadow: 0 10px 30px rgba(122, 79, 0, 0.18);
+      text-align: center;
+    }
+
+    .fallback.show {
+      display: block;
+    }
+
+    .fallback-text {
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #7a4f00;
+      line-height: 1.45;
+    }
+
+    .fallback a {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ffd43b, #facc15);
+      color: #6b4f00;
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .loader-card {
+        padding: 24px 18px;
+        border-radius: 24px;
+      }
+
+      .duck-face {
+        width: 76px;
+        height: 76px;
+      }
+
+      .duck-face::before {
+        left: 21px;
+      }
+
+      .duck-face::after {
+        right: 21px;
+      }
+
+      .duck-bill {
+        top: 42px;
+      }
+
+      .loader-title {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loader" class="loader">
+    <div class="loader-card">
+      <div class="duck-face">
+        <div class="duck-bill"></div>
+      </div>
+
+      <h1 class="loader-title">Duck Gift Card Center</h1>
+      <div class="loader-sub">กำลังโหลดระบบเบิกโค้ด...</div>
+    </div>
+  </div>
+
+  <div class="app-shell">
+    <iframe
+      id="duckApp"
+      title="Duck Gift Card Center"
+      allow="clipboard-read; clipboard-write"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+
+  <div id="fallback" class="fallback">
+    <div class="fallback-text">
+      ถ้าหน้าเว็บไม่แสดง ให้กดเปิดระบบโดยตรง
+    </div>
+    <a id="openDirect" href="#" target="_blank" rel="noopener">
+      เปิดระบบ Duck Gift Card
+    </a>
+  </div>
+
+  <script>
+    /*
+      =========================================
+      ใส่ลิงก์ Google Apps Script FRONTEND ตรงนี้
+      ห้ามใส่ลิงก์ BACKEND
+      =========================================
+    */
+
+    const FRONTEND_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyc-Q6ixcnjbILFH7OjCa1rhd_C_18bYux1U7NcIrgGYEtGcoBGxo2XQ4Uv9lTP3HDr6w/exec';
+
+    const iframe = document.getElementById('duckApp');
+    const loader = document.getElementById('loader');
+    const fallback = document.getElementById('fallback');
+    const openDirect = document.getElementById('openDirect');
+
+    function bootApp() {
+      if (!FRONTEND_WEB_APP_URL || FRONTEND_WEB_APP_URL.indexOf('ใส่ลิงก์_FRONTEND_WEB_APP_ตรงนี้') !== -1) {
+        loader.innerHTML = `
+          <div class="loader-card">
+            <div class="duck-face">
+              <div class="duck-bill"></div>
+            </div>
+            <h1 class="loader-title">ยังไม่ได้ตั้งค่าลิงก์เว็บ</h1>
+            <div class="loader-sub">
+              กรุณาแก้ค่า FRONTEND_WEB_APP_URL ในไฟล์ index.html ก่อนอัปขึ้น GitHub Pages
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      iframe.src = FRONTEND_WEB_APP_URL;
+      openDirect.href = FRONTEND_WEB_APP_URL;
+
+      iframe.addEventListener('load', function() {
+        setTimeout(function() {
+          loader.classList.add('hidden');
+        }, 500);
+      });
+
+      setTimeout(function() {
+        fallback.classList.add('show');
+      }, 6000);
+    }
+
+    bootApp();
+  </script>
+</body>
+</html>
