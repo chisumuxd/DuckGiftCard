@@ -134,44 +134,6 @@
       color: #8a6a18;
     }
 
-    .fallback {
-      position: fixed;
-      left: 12px;
-      right: 12px;
-      bottom: 12px;
-      z-index: 40;
-      display: none;
-      padding: 12px;
-      border-radius: 18px;
-      background: rgba(255, 254, 248, 0.96);
-      border: 2px solid #ffe08a;
-      box-shadow: 0 10px 30px rgba(122, 79, 0, 0.18);
-      text-align: center;
-    }
-
-    .fallback.show {
-      display: block;
-    }
-
-    .fallback-text {
-      margin-bottom: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #7a4f00;
-      line-height: 1.45;
-    }
-
-    .fallback a {
-      display: inline-block;
-      padding: 10px 14px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #ffd43b, #facc15);
-      color: #6b4f00;
-      text-decoration: none;
-      font-weight: 900;
-      font-size: 14px;
-    }
-
     @media (max-width: 768px) {
       .loader-card {
         padding: 24px 18px;
@@ -223,15 +185,6 @@
     </iframe>
   </div>
 
-  <div id="fallback" class="fallback">
-    <div class="fallback-text">
-      ถ้าหน้าเว็บไม่แสดง ให้กดเปิดระบบโดยตรง
-    </div>
-    <a id="openDirect" href="#" target="_blank" rel="noopener">
-      เปิดระบบ Duck Gift Card
-    </a>
-  </div>
-
   <script>
     /*
       =========================================
@@ -240,12 +193,10 @@
       =========================================
     */
 
-    const FRONTEND_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyc-Q6ixcnjbILFH7OjCa1rhd_C_18bYux1U7NcIrgGYEtGcoBGxo2XQ4Uv9lTP3HDr6w/exec';
+    const FRONTEND_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyDBY4QWUxpL96ToT-dI8AFTWRI_X3p-q2mwjAaH0ECGpkW14mwZf9Xef-CiYsAwa8GLA/exec';
 
     const iframe = document.getElementById('duckApp');
     const loader = document.getElementById('loader');
-    const fallback = document.getElementById('fallback');
-    const openDirect = document.getElementById('openDirect');
 
     function bootApp() {
       if (!FRONTEND_WEB_APP_URL || FRONTEND_WEB_APP_URL.indexOf('ใส่ลิงก์_FRONTEND_WEB_APP_ตรงนี้') !== -1) {
@@ -264,17 +215,12 @@
       }
 
       iframe.src = FRONTEND_WEB_APP_URL;
-      openDirect.href = FRONTEND_WEB_APP_URL;
 
       iframe.addEventListener('load', function() {
         setTimeout(function() {
           loader.classList.add('hidden');
         }, 500);
       });
-
-      setTimeout(function() {
-        fallback.classList.add('show');
-      }, 6000);
     }
 
     bootApp();
